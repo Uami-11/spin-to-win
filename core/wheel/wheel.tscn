@@ -1,0 +1,93 @@
+[gd_scene format=3 uid="uid://bmmdakv17u04h"]
+
+[ext_resource type="Script" uid="uid://duap8wnxj1nhi" path="res://core/wheel/Wheel.cs" id="1_3yt7j"]
+[ext_resource type="Texture2D" uid="uid://dt5x1k0djfojb" path="res://core/wheel/wheel.png" id="1_iho26"]
+[ext_resource type="Script" uid="uid://f8hiem8xskl8" path="res://core/wheel/EffectText.cs" id="2_j5bm7"]
+[ext_resource type="FontFile" uid="uid://mg6fmi68e5qb" path="res://fonts/pixel_operator/PixelOperator8.ttf" id="2_q71de"]
+
+[sub_resource type="Animation" id="Animation_j5bm7"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_q71de"]
+resource_name = "idle"
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_3yt7j"]
+resource_name = "spinning"
+length = 0.2
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.19999999),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [1, 8]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_0pdqx"]
+_data = {
+&"RESET": SubResource("Animation_j5bm7"),
+&"idle": SubResource("Animation_q71de"),
+&"spinning": SubResource("Animation_3yt7j")
+}
+
+[sub_resource type="LabelSettings" id="LabelSettings_j5bm7"]
+font = ExtResource("2_q71de")
+
+[node name="Wheel" type="Node2D" unique_id=1517040985 node_paths=PackedStringArray("animationPlayer", "stopTimer", "sprite")]
+script = ExtResource("1_3yt7j")
+animationPlayer = NodePath("AnimationPlayer")
+stopTimer = NodePath("Stop")
+sprite = NodePath("Sprite2D")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=167054320]
+texture = ExtResource("1_iho26")
+hframes = 9
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1391511256]
+libraries/ = SubResource("AnimationLibrary_0pdqx")
+autoplay = &"idle"
+
+[node name="EffectText" type="Label" parent="." unique_id=1154691794 node_paths=PackedStringArray("sprite")]
+offset_left = -63.0
+offset_top = -40.0
+offset_right = -23.0
+offset_bottom = -17.0
+label_settings = SubResource("LabelSettings_j5bm7")
+script = ExtResource("2_j5bm7")
+sprite = NodePath("../Sprite2D")
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=424195199]
+zoom = Vector2(3, 3)
+
+[node name="Stop" type="Timer" parent="." unique_id=1406968889]
+one_shot = true
